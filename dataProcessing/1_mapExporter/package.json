@@ -1,0 +1,17 @@
+{
+  "name": "portable-d3-tile-renderer",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "worker": "node render-worker.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "d3": "7.9.0",
+    "sharp": "0.35.4",
+    "topojson-client": "3.1.0"
+  }
+}

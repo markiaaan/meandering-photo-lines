@@ -1,0 +1,222 @@
+<!doctype html>
+<!--
+  Meandering Photo Lines
+  Copyright (c) 2026 Mark-Jan Bludau
+  Licensed under the MIT License. See LICENSE.
+
+  Repository: https://github.com/markiaaan/meandering-photo-lines/
+  Project page: https://uclab.fh-potsdam.de/photolines/
+
+  Created and developed by Mark-Jan Bludau.
+  Based on research by Mark-Jan Bludau, Christian Tominski, and Marian Dörk.
+
+  Bludau, M.-J., Tominski, C., and Dörk, M. (2027). Meandering Photo Lines:
+  Fluid Multiscale Exploration of Photographic Archives. IEEE Transactions
+  on Visualization and Computer Graphics.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Meandering Photo Lines: Fluid Multiscale Exploration of Photographic
+      Archives
+    </title>
+    <meta
+      name="description"
+      content="Meandering Photo Lines is a visualization technique for fluid multiscale exploration of photographic archives across space, time, and topics."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Meandering Photo Lines" />
+    <meta
+      property="og:title"
+      content="Meandering Photo Lines: Fluid Multiscale Exploration of Photographic Archives"
+    />
+    <meta
+      property="og:description"
+      content="Meandering Photo Lines is a visualization technique for fluid multiscale exploration of photographic archives across space, time, and topics."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Meandering Photo Lines: Fluid Multiscale Exploration of Photographic Archives"
+    />
+    <meta
+      name="twitter:description"
+      content="Meandering Photo Lines is a visualization technique for fluid multiscale exploration of photographic archives across space, time, and topics."
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <script src="assets/js/d3.v7.min.js"></script>
+    <script src="assets/js/topojson-client@3.js"></script>
+  </head>
+
+  <body>
+    <div id="imageBar"></div>
+    <div id="timeline"></div>
+
+    <div id="buttons">
+      <h1 id="buttonsTitle">Meandering<br />Photo Lines</h1>
+
+      <div id="buttonRow">
+        <span id="arrangeButton" class="svgIcon" title="Arrange / Grid"
+          ><svg
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 32 32"
+          >
+            <path
+              fill="currentColor"
+              d="M12.5 9.25H19a3.75 3.75 0 1 1 0 7.5h-6a2.25 2.25 0 0 0 0 4.5h6.5V19.5h5v5h-5v-1.75H13a3.75 3.75 0 1 1 0-7.5h6a2.25 2.25 0 0 0 0-4.5h-6.5v1.75h-5v-5h5zM21 23h2v-2h-2zM9 11h2V9H9z"
+            /></svg
+        ></span>
+
+        <span id="filterButton" class="svgIcon" title="Filter/Search"
+          ><svg
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+          >
+            <path
+              fill="currentColor"
+              d="M13.5 7a6.5 6.5 0 0 1 6.5 6.5 6.469 6.469 0 0 1-1.406 4.033l5.436 5.437-1.06 1.06-5.437-5.436A6.469 6.469 0 0 1 13.5 20a6.5 6.5 0 1 1 0-13Zm0 1.5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+            /></svg
+        ></span>
+
+        <span
+          id="settingsButton"
+          class="svgIcon"
+          title="Settings"
+          aria-label="Settings"
+          role="button"
+          tabindex="0"
+          ><svg
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon
+              points="22.694,13.953 24.863,14.437 24.863,17.563 22.694,18.047 22.181,19.286 23.372,21.162 21.162,23.372 19.286,22.181 18.047,22.694 17.563,24.863 14.437,24.863 13.953,22.694 12.714,22.181 10.838,23.372 8.628,21.162 9.819,19.286 9.306,18.047 7.137,17.563 7.137,14.437 9.306,13.953 9.819,12.714 8.628,10.838 10.838,8.628 12.714,9.819 13.953,9.306 14.437,7.137 17.563,7.137 18.047,9.306 19.286,9.819 21.162,8.628 23.372,10.838 22.181,12.714"
+            />
+            <circle cx="16" cy="16" r="3.25" /></svg
+        ></span>
+      </div>
+
+      <!-- grid/path slider -->
+      <div id="layoutScrub">
+        <input
+          id="layoutSlider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          value="0"
+          aria-label="Grid to Path"
+        />
+      </div>
+
+      <!-- active filter -->
+      <div id="activeFilterBox">
+        <span class="activeFilterLabel">Filter:</span>
+        <span id="activeFilterKeyword"></span>
+        <span id="activeFilterReset" title="Reset filter">×</span>
+      </div>
+
+      <!-- Hierarchy / clustering mode (radio) -->
+      <div id="hierarchyMode" aria-label="Grouping mode">
+        <p id="hierarchyModeTitle">Grouping by</p>
+        <label class="groupingBy" title="1 year + region">
+          <span>Country trips</span>
+          <input type="radio" name="groupingBy" value="trips" checked />
+        </label>
+        <label class="groupingBy" title="1 year">
+          <span>1 year</span>
+          <input type="radio" name="groupingBy" value="1y" />
+        </label>
+        <label class="groupingBy" title="5 years">
+          <span>5 years</span>
+          <input type="radio" name="groupingBy" value="5y" />
+        </label>
+      </div>
+
+      <!-- Tiles per row (radio) -->
+      <div id="tilesPerRow" aria-label="Tiles per row">
+        <p id="tilesPerRowTitle">Tiles per row</p>
+        <label class="groupingBy" title="4 tiles per row">
+          <span>4</span>
+          <input type="radio" name="cols" value="4" checked />
+        </label>
+        <label class="groupingBy" title="8 tiles per row">
+          <span>8</span>
+          <input type="radio" name="cols" value="8" />
+        </label>
+        <label class="groupingBy" title="15 tiles per row">
+          <span>15</span>
+          <input type="radio" name="cols" value="15" />
+        </label>
+      </div>
+
+      <div id="gridLayoutMode" aria-label="Grid layout">
+        <p id="gridLayoutModeTitle">Tile background</p>
+        <label class="groupingBy" title="Show maps in grid">
+          <span>Maps</span>
+          <input type="radio" name="bg" value="maps" checked />
+        </label>
+        <label
+          class="groupingBy"
+          title="Show a random image per mission in grid"
+        >
+          <span>Images</span>
+          <input type="radio" name="bg" value="images" />
+        </label>
+      </div>
+
+      <div id="keywordPanel">
+        <div id="keywordPanelHeader">
+          <span class="icon svgIcon"
+            ><svg
+              aria-hidden="true"
+              focusable="false"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 32 32"
+            >
+              <path
+                fill="currentColor"
+                d="M13.5 7a6.5 6.5 0 0 1 6.5 6.5 6.469 6.469 0 0 1-1.406 4.033l5.436 5.437-1.06 1.06-5.437-5.436A6.469 6.469 0 0 1 13.5 20a6.5 6.5 0 1 1 0-13Zm0 1.5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+              /></svg
+          ></span>
+          <span id="keywordPanelTitle">Filter</span>
+          <span id="keywordClearButton" title="Reset filter">RESET</span>
+        </div>
+
+        <input
+          id="keywordPanelSearch"
+          type="text"
+          placeholder="Filter by keyword"
+          autocomplete="off"
+        />
+
+        <div id="keywordPanelList"></div>
+      </div>
+    </div>
+
+    <a
+      class="projectCredit"
+      href="https://github.com/markiaaan/meandering-photo-lines/"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Powered by Meandering Photo Lines</a
+    >
+
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

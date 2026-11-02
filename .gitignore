@@ -1,0 +1,20 @@
+# Local dependencies and Python environments
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Notebook checkpoints and local caches
+.ipynb_checkpoints/
+cache/
+
+# Local synthetic image generator
+/generate-synthetic-photos.ipynb
+
+# Render progress
+/map-tiles/**/queue-state.csv
+
+# macOS
+.DS_Store
+._*

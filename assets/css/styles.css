@@ -1,0 +1,1415 @@
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background: #161818;
+        color: #fff;
+        font-family: serif;
+        font-weight: 300;
+        letter-spacing: 0.01em;
+        font-size: 16px;
+        overflow-x: hidden;
+      }
+
+      #svg {
+        height: 80000px;
+        width: 100%;
+        z-index: 1;
+      }
+
+      #mapConnectorOverlay {
+        height: 180000px;
+      }
+
+      #navigation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        margin: 0;
+        z-index: 10;
+      }
+
+      .balloonButton {
+        cursor: pointer;
+      }
+
+      .keywords {
+        color: white;
+        margin: 0;
+        text-align: right;
+        vertical-align: middle;
+        font-size: 0.05rem;
+      }
+
+      #map {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .tooltip {
+        position: absolute;
+        color: white;
+        text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+        pointer-events: none;
+        opacity: 0;
+        font-size: 1rem;
+        z-index: 100;
+      }
+
+
+
+      #buttons {
+        position: fixed;
+        top: 0 !important;
+        right: 10px;
+        z-index: 900;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: end;
+        margin-top: 1rem !important;
+        max-height: calc(100vh - 110px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-right: 4px;
+        pointer-events: none;
+      }
+
+      #buttons>*,
+      #buttons .svgIcon,
+      #buttons input,
+      #buttons label,
+      #buttons button {
+        pointer-events: auto;
+      }
+
+      #buttons::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      #buttons::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+      }
+
+      #buttonsTitle {
+        margin: 0 8px 10px 0;
+        font-family: serif;
+        font-weight: 300;
+        font-size: 1.6rem;
+        line-height: 0.92;
+        letter-spacing: 0.01em;
+        text-align: right;
+      }
+
+      #buttonRow {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      #buttons .svgIcon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        background: #ffffff16;
+        color: #ffffff;
+        margin: 0.5rem;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .mapTitle {
+        margin: 0;
+        text-align: center;
+        line-height: 1.05;
+      }
+
+      .mapTitlePlace {
+        font-weight: bold;
+      }
+
+      .mapTitleYear {
+        font-weight: light;
+        margin-left: 5px;
+        opacity: 0.6;
+      }
+
+      #mapContainer {
+        position: absolute;
+        display: inline;
+        padding: 0px;
+      }
+
+      .mapSVGs {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .mapG {}
+
+      .mapMarkersG {
+        pointer-events: fill;
+      }
+
+      .mapTitleScopeIcon svg {
+        display: block;
+        width: 0.8rem;
+        height: 0.8rem;
+        min-width: 0.8rem;
+        min-height: 0.8rem;
+        ;
+        max-width: 0.8rem;
+        max-height: 0.8rem;
+      }
+
+      #imageBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: visible;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      #imageBar img.imageBarImg {
+        position: absolute;
+        transform: translate(-50%, -50%) scale(1);
+        width: auto;
+        height: auto;
+        max-width: 0%;
+        max-height: 0%;
+        object-fit: contain;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        transform-origin: center center;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        pointer-events: auto;
+        cursor: zoom-in;
+      }
+
+      #imageBar img.imageBarImg:hover {
+        transform: translate(-50%, -50%) scale(1.5);
+        z-index: 9999;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      }
+
+      #imageBar span.keywordBarText {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        color: rgba(255, 255, 255, 0.9);
+        white-space: nowrap;
+        font-family: sans-serif;
+        font-size: 0rem;
+        letter-spacing: 0.02em;
+        text-shadow:
+          0 1px 1px rgba(0, 0, 0, 0.7),
+          0 2px 3px rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
+        opacity: 0;
+      }
+
+      .seriesThumb {
+        cursor: zoom-in;
+      }
+
+      .mapDivs.isPinned .mapG {
+        opacity: 1 !important;
+      }
+
+      .sphere {
+        fill: #272727;
+      }
+
+      .graticule {
+        fill: none;
+        stroke: #343434;
+        stroke-width: 0.7px;
+        stroke-opacity: 0.7;
+      }
+
+      .land {
+        fill: #6b6b6b;
+        stroke: #303030;
+        stroke-width: 0.5px;
+      }
+
+      #yearOverlay {
+        z-index: 100;
+        font-size: 1.2rem;
+        font-weight: 300;
+      }
+
+      path.routePathProgress {
+        pointer-events: none;
+      }
+
+      /* --- TIMELINE --- */
+
+      #timeline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 90px !important;
+        z-index: 60;
+        pointer-events: none;
+      }
+
+      #timeline svg {
+        width: 100%;
+        height: 100vh;
+        display: block;
+      }
+
+      #timeline .timeline-tickline {
+        stroke: #ffffff;
+        stroke-width: 1px;
+        opacity: 0.3;
+      }
+
+
+      #timeline .timeline-label {
+        fill: #ffffff;
+        font-size: 0.75rem;
+        letter-spacing: 0.03em;
+        opacity: 0.4;
+        font-family: sans-serif;
+        pointer-events: none;
+      }
+
+      .year-bar {
+        pointer-events: none;
+      }
+
+      #followerLabelText {
+        font-family: sans-serif;
+      }
+
+      .seriesPlaceLabel {
+        position: absolute;
+        opacity: 0;
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        text-align: right;
+        margin-top: 2.8rem;
+      }
+
+      .seriesG {
+        position: absolute;
+        opacity: 0;
+        pointer-events: auto;
+        overflow: visible;
+      }
+
+      .seriesThumb {
+        position: absolute;
+        top: 0;
+        object-fit: cover;
+      }
+
+      .seriesFirstImage {
+        left: 0;
+      }
+
+      .seriesThumbPile {
+        opacity: 0.35;
+      }
+
+      .seriesThumbBadge {
+        position: absolute;
+        bottom: 2px;
+        height: 14px;
+        padding: 0 4px;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 9px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 1), 0 2px 2px rgba(0, 0, 0, 0.85);
+        pointer-events: none;
+      }
+
+      .seriesCloseButton {
+        position: absolute;
+        pointer-events: auto;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 5000;
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+      }
+
+      .year-indicator-text {
+        font-family: sans-serif;
+        font-size: 0.75rem;
+      }
+
+      #keywordPanel {
+        position: fixed;
+        right: 3rem;
+        top: 6.2rem;
+        width: 260px;
+        max-height: 62vh;
+        padding: 5px;
+        background: rgba(41, 42, 42, 0.962);
+        border-radius: 12px;
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(0, 0, 0, 0.5);
+        /* backdrop-filter: blur(8px); */
+        z-index: 999;
+        text-align: center;
+        display: none;
+        color: #fff;
+      }
+
+      #keywordPanelHeader {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+        font-weight: bold;
+        font-family: serif;
+      }
+
+
+
+      #keywordPanelTitle {
+        font-family: serif;
+        font-size: 1rem;
+        margin-right: 50px;
+      }
+
+      #keywordPanelSearch {
+        width: calc(90% - 50px);
+        margin-bottom: 8px;
+        padding: 4px 8px;
+        padding-right: 50px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(51, 52, 52, 0.98);
+        color: #fff;
+        font-family: sans-serif;
+        font-size: 0.75rem;
+        text-align: center;
+      }
+
+      #keywordPanelSearch::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      #keywordPanelList {
+        max-height: 46vh;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      .keywordRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        padding: 3px 0;
+        font-family: sans-serif;
+        font-size: 0.8rem;
+        cursor: pointer;
+      }
+
+      .keywordRow:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .keywordLabel {
+        flex: 1 1 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .keywordCount {
+        flex: 0 0 auto;
+        font-family: sans-serif;
+        font-size: 0.7rem;
+        opacity: 0.6;
+      }
+
+      .keywordBar {
+        flex: 0 0 40px;
+        height: 3px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+
+      .keywordBarFill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--highlightColor), #ffffff);
+      }
+
+      .yearSpan {
+        display: inline-block;
+        max-width: 25ch;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
+        text-align: right;
+        margin-right: 5px;
+      }
+
+      #keywordPanelHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #keywordClearButton {
+        margin-right: 5px;
+        font-family: sans-serif;
+        font-size: 0.8rem;
+        cursor: pointer;
+        opacity: 0.6;
+      }
+
+      #keywordClearButton:hover {
+        opacity: 1;
+      }
+
+
+
+      #activeFilterBox {
+        margin-top: 2rem;
+        margin-right: 5px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: none;
+        background: #ffffff16;
+        display: none;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+      }
+
+      #activeFilterBox .activeFilterLabel {
+        font-family: sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.8;
+      }
+
+      #activeFilterKeyword {
+        font-family: sans-serif;
+      }
+
+      #activeFilterReset {
+        cursor: pointer;
+        opacity: 0.7;
+        font-family: sans-serif;
+        font-size: 0.8rem;
+        line-height: 1;
+      }
+
+      #activeFilterReset:hover {
+        opacity: 1;
+      }
+
+
+      #globalPathFollower {
+        z-index: 9999;
+      }
+
+
+
+      #layoutScrub {
+        width: 100px;
+        margin: 2px 8px 0 0;
+        z-index: 900;
+        opacity: 0.92;
+        pointer-events: auto;
+        -webkit-appearance: none;
+      }
+
+      #layoutSlider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        outline: none;
+        cursor: pointer;
+      }
+
+      #layoutSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.35),
+          0 2px 6px rgba(0, 0, 0, 0.6);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      #layoutSlider:hover::-webkit-slider-thumb {
+        transform: scale(1.15);
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.45),
+          0 0 8px rgba(255, 255, 255, 0.25);
+      }
+
+      #layoutSlider::-moz-range-track {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+      }
+
+      #layoutSlider::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.35),
+          0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+
+
+
+
+      .mapTitleCount {
+        /* count goes on its own line under place/year */
+        display: block;
+        width: fit-content;
+        margin: 5px auto 0 auto;
+
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        gap: 0px;
+        height: 18px;
+        min-width: 18px;
+        padding: 0 6px;
+
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        color: #ffffff;
+        line-height: 18px;
+        font-weight: 600;
+        font-size: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        transform: translateY(-1px);
+        user-select: none;
+        transition: opacity 0.15s ease;
+      }
+
+      .photoCountButton {
+        width: fit-content;
+        margin-right: 5px;
+        font-family: sans-serif;
+        vertical-align: middle;
+
+        height: 18px;
+        min-width: 18px;
+        padding-left: 6px;
+        padding-right: 0px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        color: #ffffff;
+        font-size: 0.6rem;
+        line-height: 18px;
+        font-weight: 600;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        user-select: none;
+        position: relative;
+        top: -2px;
+        transition: opacity 0.15s ease;
+      }
+
+      .countNum {
+        font-size: 10px;
+        margin: 0px;
+      }
+
+      .countArrow {
+        font-size: 10px;
+        margin: 0px;
+        line-height: 1;
+        transform: translateY(1px);
+        opacity: 0.6;
+        transition: opacity 0.15s ease;
+      }
+
+      .mapTitleCount:hover .countArrow {
+        opacity: 1;
+        color: var(--highlightColor);
+      }
+
+      .photoCountButton:hover .countArrow {
+        opacity: 1;
+        color: var(--highlightColor);
+      }
+
+      .mapTitleCount:hover {
+        opacity: 1;
+        color: var(--highlightColor);
+      }
+
+      .photoCountButton:hover {
+        opacity: 1;
+        color: var(--highlightColor);
+      }
+
+      #hierarchyMode {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-top: 2rem;
+        margin-right: 6px;
+        user-select: none;
+      }
+
+      #tilesPerRow {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-top: 2rem;
+        margin-right: 6px;
+        user-select: none;
+      }
+
+      #gridLayoutMode {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-top: 2rem;
+        margin-right: 6px;
+        user-select: none;
+      }
+
+      #hierarchyMode p {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+      }
+
+      #tilesPerRow p {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+      }
+
+      #gridLayoutMode p {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+      }
+
+
+      .groupingBy {
+        display: flex;
+        align-items: center;
+        font-size: 0.75rem;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: sans-serif;
+      }
+
+      input[type="radio"] {
+        accent-color: var(--highlightColor);
+        cursor: pointer;
+      }
+
+
+      .keywordBarText,
+      .imageBarImg,
+      .timeline-label,
+      #buttons,
+      #journeyHint,
+      #journeyHintTop,
+      .yearSpan,
+      #timeline {
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-drag: none;
+
+      }
+
+
+      .seriesLightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 99999;
+      }
+
+      .seriesLightboxBackdrop {
+        position: absolute;
+        inset: 0;
+      }
+
+      .seriesLightboxStage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .seriesLightboxImageWrap {
+        position: relative;
+        max-width: 88vw;
+        max-height: 82vh;
+        pointer-events: auto;
+        will-change: transform;
+        transform-origin: center center;
+        cursor: zoom-in;
+      }
+
+      .seriesLightboxNav.hidden {
+        display: none;
+      }
+
+      .seriesLightboxImage {
+        display: block;
+        max-width: 88vw;
+        max-height: 82vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .seriesLightboxTop {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+
+      .seriesLightboxClose,
+      .seriesLightboxInfoBtn,
+      .seriesLightboxNav {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: #ffffff;
+        background: #ffffff16;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(4px);
+      }
+
+      .seriesLightboxClose,
+      .seriesLightboxInfoBtn {
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        font-size: 22px;
+        line-height: 1;
+        padding: 0;
+      }
+
+      .seriesLightboxNav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        font-size: 22px;
+        line-height: 1;
+        z-index: 20;
+        pointer-events: auto;
+      }
+
+      .seriesLightboxPrev {
+        left: 18px;
+      }
+
+      .seriesLightboxNext {
+        right: 18px;
+      }
+
+      .seriesLightboxThumbs {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 2px 6px 2px;
+        white-space: nowrap;
+        scrollbar-gutter: stable;
+        -webkit-overflow-scrolling: touch;
+        z-index: 20;
+      }
+
+      .seriesLightboxThumbs::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .seriesLightboxThumbs::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+      }
+
+      .seriesLightboxThumb {
+        width: auto;
+        height: 68px;
+        object-fit: cover;
+        border-radius: 4px;
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
+
+      .seriesLightboxInfo {
+        position: absolute;
+        right: 60px;
+        bottom: 144px;
+        z-index: 20;
+        box-sizing: border-box;
+        width: min(360px, calc(100vw - 120px));
+        padding: 12px 14px;
+        background: rgba(0, 0, 0, 0.72);
+        color: #ffffff;
+        backdrop-filter: blur(6px);
+        display: none;
+      }
+
+      .seriesLightboxInfo.visible {
+        display: block;
+      }
+
+      .seriesLightboxInfo table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1rem;
+      }
+
+      .seriesLightboxInfo td {
+        padding: 3px 8px 3px 0;
+        vertical-align: top;
+      }
+
+      .seriesLightboxInfo td:nth-child(1) {
+        font-weight: normal;
+        opacity: 0.7;
+        white-space: nowrap;
+      }
+
+
+      .seriesLightboxInfo td:nth-child(2) {
+        font-weight: 500;
+        font-family: sans-serif;
+        overflow-wrap: break-word;
+      }
+
+      #followerResizeHint {
+        cursor: nwse-resize;
+      }
+
+      .followerResizeHintBg {
+        cursor: nwse-resize;
+        fill: var(--highlightColor);
+        transition: fill 0.15s ease;
+      }
+
+      #followerResizeHint:hover .followerResizeHintBg {
+        fill: white;
+      }
+
+      #followerResizeHintIcon {
+        cursor: nwse-resize;
+
+      }
+
+      .mapSVGs {
+        cursor: pointer;
+      }
+
+      #journeyHint,
+      #journeyHintTop {
+        position: fixed;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        pointer-events: none;
+        z-index: 2000;
+      }
+
+      .journeyHintArrow {
+        font-size: 26px;
+        line-height: 1;
+        color: #ffffff;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      }
+
+      .journeyHintArrow.is-down {
+        animation: journeyHintBlinkDown 1.1s ease-in-out infinite;
+      }
+
+      .journeyHintArrow.is-up {
+        animation: journeyHintBlinkUp 1.1s ease-in-out infinite;
+      }
+
+      @keyframes journeyHintBlinkDown {
+        0% {
+          opacity: 0.35;
+          transform: translateY(0px);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(4px);
+        }
+
+        100% {
+          opacity: 0.35;
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes journeyHintBlinkUp {
+        0% {
+          opacity: 0.35;
+          transform: translateY(0px);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(-4px);
+        }
+
+        100% {
+          opacity: 0.35;
+          transform: translateY(0px);
+        }
+      }
+
+      .svgIcon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .svgIcon>svg {
+        display: block;
+        width: 1em;
+        height: 1em;
+        flex-shrink: 0;
+        pointer-events: none;
+      }
+
+      #buttons .svgIcon>svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .mapTitleCount,
+      .photoCountButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding-right: 6px;
+      }
+
+      .photoCountButton {
+        display: inline-flex;
+      }
+
+      .countArrow.svgIcon {
+        width: 11px;
+        height: 11px;
+        flex: 0 0 11px;
+        font-size: 11px;
+        line-height: 1;
+        margin: 0;
+        transform: none;
+      }
+
+      .countArrow.svgIcon>svg {
+        width: 11px;
+        height: 11px;
+      }
+
+      .seriesStickyActions {
+        margin: 0;
+        vertical-align: middle;
+      }
+
+      .seriesStickyActions .countNum,
+      .seriesStickyActions .countArrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        line-height: 1;
+      }
+
+      .seriesStickyActions .countArrow {
+        width: 11px;
+        height: 11px;
+        font-size: 11px;
+        transform: none;
+      }
+
+      #settingsButton {
+        display: none;
+      }
+
+      #mapConnectorOverlay {
+        height: auto;
+      }
+
+      @media (max-width: 799px) {
+        #buttons {
+          top: calc(12px + env(safe-area-inset-top)) !important;
+          right: 0;
+          bottom: auto;
+          left: 0;
+          width: 100%;
+          box-sizing: border-box;
+          margin: 0 !important;
+          padding: 0 10px;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          text-align: left;
+          max-height: none;
+          overflow: visible;
+          transform: none;
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        #buttonsTitle {
+          flex: 1 1 auto;
+          min-width: 0;
+          max-width: calc(100% - 150px);
+          margin: 0 8px 0 0;
+          font-size: 0.95rem;
+          line-height: 0.92;
+          text-align: left;
+        }
+
+        #buttonRow {
+          flex: 0 0 auto;
+          align-self: center;
+          justify-content: flex-end;
+          gap: 6px;
+          margin-left: auto;
+        }
+
+        #buttons .svgIcon {
+          margin: 0;
+        }
+
+        #settingsButton {
+          display: inline-flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        #buttonRow {
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        #layoutScrub,
+        #hierarchyMode,
+        #tilesPerRow,
+        #gridLayoutMode {
+          display: none;
+          width: 100%;
+          box-sizing: border-box;
+          margin-top: 10px;
+          margin-right: 0;
+          padding: 12px;
+          border-radius: 16px;
+          background: rgba(36, 39, 39, 0.92);
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+          align-items: flex-start;
+          text-align: left;
+        }
+
+        #buttons.is-expanded #layoutScrub,
+        #buttons.is-expanded #hierarchyMode,
+        #buttons.is-expanded #tilesPerRow,
+        #buttons.is-expanded #gridLayoutMode {
+          display: flex;
+        }
+
+        #buttons.is-expanded #layoutScrub {
+          display: block;
+        }
+
+        #hierarchyMode,
+        #tilesPerRow,
+        #gridLayoutMode {
+          gap: 0.65rem;
+        }
+
+        #hierarchyMode p,
+        #tilesPerRow p,
+        #gridLayoutMode p {
+          margin: 0 0 0.35rem;
+          font-size: 0.95rem;
+          text-align: left;
+        }
+
+        .groupingBy {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        #activeFilterBox {
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        #keywordPanel {
+          top: 58px;
+          right: 10px;
+          left: 10px;
+          width: auto;
+          max-height: min(62vh, calc(100vh - 82px));
+        }
+      }
+
+      @media (max-width: 800px) {
+        #mapConnectorOverlay {
+          width: calc(100vw - 12px) !important;
+          max-width: calc(100vw - 12px);
+        }
+
+        #timeline {
+          width: 50px !important;
+        }
+
+        #timeline svg {
+          width: 50px !important;
+          transform: none;
+        }
+
+        .mapDivs.in-path {
+          transform: none;
+        }
+
+        .missionLabel {
+          display: flex !important;
+          flex-direction: column-reverse !important;
+          align-items: flex-end !important;
+          transform: translateX(8px) !important;
+        }
+
+        .missionLabel .yearSpan {
+          display: block !important;
+          max-width: none !important;
+          margin-right: 0 !important;
+          text-align: left !important;
+          font-size: 0.9rem !important;
+        }
+
+        .missionLabel .photoCountButton {
+          width: fit-content !important;
+          margin-top: 0.2rem !important;
+          margin-right: 0 !important;
+        }
+
+        .missionLabel.seriesCloseActive .seriesStickyActions {
+          position: relative;
+          z-index: 10020;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        .seriesPlaceLabel {
+          translate: none;
+          font-size: 0.68rem !important;
+          line-height: 1.05;
+          white-space: nowrap;
+          z-index: 10010;
+        }
+
+        .missionLabel.seriesCloseActive {
+          z-index: 10020 !important;
+          overflow: visible !important;
+        }
+      }
+
+      .seriesStickyActions {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.45rem;
+        pointer-events: auto;
+        will-change: transform;
+      }
+
+      .mapTitle {
+        cursor: pointer;
+      }
+
+      .mapTitleScopeIcon {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0.28rem;
+      }
+
+      .tooltipHeading {
+        font-family: sans-serif;
+      }
+
+      html.welcomeOpen {
+        overflow: hidden;
+      }
+
+      .welcomeDialog {
+        box-sizing: border-box;
+        width: min(600px, calc(100vw - 32px));
+        max-width: none;
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+        margin: auto;
+        padding: clamp(24px, 5vw, 40px);
+        border: 1px solid #555;
+        border-radius: 12px;
+        background: #303332;
+        color: #fff;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+        overscroll-behavior: contain;
+      }
+
+      .welcomeDialog::backdrop {
+        background: rgb(0 0 0 / 65%);
+      }
+
+      .welcomeDialog h2 {
+        margin: 0 36px 24px 0;
+        font-family: serif;
+        font-size: clamp(26px, 5vw, 36px);
+        font-style: italic;
+        font-weight: 400;
+        line-height: 1.15;
+      }
+
+      .welcomeDialog p {
+        margin: 0 0 18px;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .welcomeDialog .welcomeClose {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        padding: 7px;
+        border: 0;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 12%);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .welcomeDialog .welcomeClose svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .welcomeStart {
+        display: block;
+        max-width: 100%;
+        margin: 26px auto 0;
+        padding: 12px 22px;
+        border: 0;
+        border-radius: 24px;
+        background: var(--highlightColor);
+        color: #161818;
+        font: 16px sans-serif;
+        cursor: pointer;
+      }
+
+      .welcomeDialog button:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 4px;
+      }
+
+      .projectCredit {
+        position: fixed;
+        right: 12px;
+        bottom: 8px;
+        z-index: 100;
+        color: inherit;
+        font: 11px sans-serif;
+        opacity: 0.55;
+      }
+
+      .projectCredit:hover,
+      .projectCredit:focus-visible {
+        opacity: 1;
+      }
